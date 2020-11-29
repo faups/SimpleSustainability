@@ -7,6 +7,8 @@ import "firebase/firestore";
 export default function App() {
   const { register, handleSubmit } = useForm();
 
+  document.title = "Sustainability Simplified";
+
   const config = {
     apiKey: "AIzaSyD__P-Qqh4J3U337Nr_G5oQjeGCsC2H93M",
     authDomain: "simple-sustainability.firebaseapp.com",
@@ -33,6 +35,7 @@ export default function App() {
 
   return (
     <div className="App">
+      <title>Simple Sustainability</title>
       <form onSubmit={handleSubmit(onSubmit)}>
         <div>
           <label htmlFor="waterUsage">Water Usage (Gallons)</label>
