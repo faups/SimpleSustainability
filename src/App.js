@@ -10,14 +10,14 @@ export default function App() {
   document.title = "Sustainability Simplified";
 
   const config = {
-    apiKey: "AIzaSyD__P-Qqh4J3U337Nr_G5oQjeGCsC2H93M",
-    authDomain: "simple-sustainability.firebaseapp.com",
-    databaseURL: "https://simple-sustainability.firebaseio.com",
-    projectId: "simple-sustainability",
-    storageBucket: "simple-sustainability.appspot.com",
-    messagingSenderId: "382171174450",
-    appId: "1:382171174450:web:324f2134da1be6bc9e0e2b",
-    measurementId: "G-LTW5YQ2G3E"
+    apiKey: process.env.REACT_APP_API_KEY,
+    authDomain: process.env.REACT_APP_AUTH_DOMAIN,
+    databaseURL: process.env.REACT_APP_DATABASE_URL,
+    projectId: process.env.REACT_APP_PROJECT_ID,
+    storageBucket: process.env.REACT_APP_STORAGE_BUCKET,
+    messagingSenderId: process.env.REACT_APP_MESSAGING_SENDER_ID,
+    appId: process.env.REACT_APP_APP_ID,
+    measurementId: process.env.REACT_APP_MEASUREMENT_ID
   };
   if (!firebase.apps.length) {
     firebase.initializeApp(config);
