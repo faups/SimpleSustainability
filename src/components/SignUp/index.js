@@ -31,6 +31,14 @@ class SignUpFormBase extends Component {
     this.props.firebase
       .doCreateUserWithEmailAndPassword(email, passwordOne)
       .then(authUser => {
+        return this.props.firebase
+          .users()
+          .add({
+            username,
+            email,
+          });
+      })
+      .then(() => {
         this.setState({ ...INITIAL_STATE });
         this.props.history.push(ROUTES.HOME);
       })
@@ -104,7 +112,7 @@ const SignUpLink = () => (
   <div>
     <p>
       Don't have an account? <Link to={ROUTES.SIGN_UP}>Sign Up</Link>
-    </p>ß
+    </p>
   </div>
 );
 
