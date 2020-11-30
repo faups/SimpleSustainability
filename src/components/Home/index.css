@@ -25,13 +25,13 @@ body {
   }
   
   p {
-    color: #bf1650;
+    text-align: center;
   }
   
-  p::before {
+  /* p::before {
     display: inline;
     content: "⚠ ";
-  }
+  } */
   
   input {
     display: block;
