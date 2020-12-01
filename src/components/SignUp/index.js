@@ -6,7 +6,7 @@ import * as ROUTES from '../../constants/routes';
 
 const SignUpPage = () => (
   <div>
-    <h1>SignUp</h1>
+    <h1>Sign Up</h1>
     <SignUpForm />
   </div>
 );
@@ -16,6 +16,7 @@ const INITIAL_STATE = {
   email: '',
   passwordOne: '',
   passwordTwo: '',
+  role: 'farmer',
   error: null,
 };
 
@@ -26,7 +27,7 @@ class SignUpFormBase extends Component {
   }
 
   onSubmit = event => {
-    const { username, email, passwordOne } = this.state;
+    const { username, email, passwordOne, role } = this.state;
 
     this.props.firebase
       .doCreateUserWithEmailAndPassword(email, passwordOne)
@@ -36,6 +37,7 @@ class SignUpFormBase extends Component {
           .set({
             username,
             email,
+            role,
           });
       })
       .then(() => {
@@ -59,6 +61,7 @@ class SignUpFormBase extends Component {
       email,
       passwordOne,
       passwordTwo,
+      role,
       error,
     } = this.state;
 
@@ -98,6 +101,13 @@ class SignUpFormBase extends Component {
           type="password"
           placeholder="Confirm Password"
         />
+        <label>
+          I am a:
+          <select name="role" value={role} onChange={this.onChange}>
+            <option value="farmer">Farmer</option>
+            <option value="engineer">Engineer</option>
+          </select>
+        </label>
         <button disabled={isInvalid} type="submit">
           Sign Up
         </button>

@@ -1,22 +1,22 @@
 import React, { Component } from 'react';
- 
+
 import { withFirebase } from '../Firebase';
- 
+
 class AdminPage extends Component {
   constructor(props) {
     super(props);
- 
+
     this.state = {
       loading: false,
       users: [],
     };
   }
- 
+
   componentDidMount() {
     this.setState({ loading: true });
     this.unsubscribe = this.props.firebase.users().onSnapshot(snapshot => {
       var usersList = [];
-      
+
       snapshot.forEach(doc => usersList.push({
         uid: doc.id,
         email: doc.data().email,
@@ -33,7 +33,7 @@ class AdminPage extends Component {
   componentWillUnmount() {
     this.unsubscribe();
   }
- 
+
   render() {
     const { users, loading } = this.state;
 
@@ -42,7 +42,7 @@ class AdminPage extends Component {
         <h1>Admin</h1>
 
         {loading && <div>Loading ...</div>}
- 
+
         <UserList users={users} />
       </div>
     );
@@ -53,18 +53,18 @@ const UserList = ({ users }) => (
   <ul>
     {users.map(user => (
       <li key={user.uid}>
-        <span>
+        <ul>
           <strong>ID:</strong> {user.uid}
-        </span>
-        <span>
+        </ul>
+        <ul>
           <strong>E-Mail:</strong> {user.email}
-        </span>
-        <span>
+        </ul>
+        <ul>
           <strong>Username:</strong> {user.username}
-        </span>
+        </ul>
       </li>
     ))}
   </ul>
 );
- 
+
 export default withFirebase(AdminPage);

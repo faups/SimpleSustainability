@@ -37,6 +37,10 @@ class Firebase {
     user = uid => this.db.collection('users').doc(uid);
     
     users = () => this.db.collection('users');
+
+    report = id => this.db.collection('reports').doc(id);
+    
+    reports = () => this.db.collection('reports');
 }
 
 export default Firebase;
