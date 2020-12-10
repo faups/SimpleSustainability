@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import { AuthUserContext, withAuthorization } from '../Session';
+import { withAuthorization } from '../Session';
 import { withFirebase } from '../Firebase';
 
 const INITIAL_STATE = {
@@ -10,6 +10,8 @@ const INITIAL_STATE = {
   energyUsage: '',
   co2Emission: '',
   role: '',
+  reports: [],
+  loading: false,
 };
 
 class HomePage extends Component {
@@ -18,27 +20,48 @@ class HomePage extends Component {
     this.state = { ...INITIAL_STATE };
   }
 
-  // componentDidMount() {
-  //     this.props.firebase
-  //       .user(this.props.authUser.uid)
-  //       .get()
-  //       .then(doc => this.setState({ role: doc.data().role }));
-  // }
+  componentDidMount() {
+    this.setState({ loading: true })
+    this.props.firebase
+      .user(this.props.authUser.uid)
+      .get()
+      .then(doc => this.setState({ role: doc.data().role }));
+    this.props.firebase
+      .reports()
+      .get()
+      .then(snapshot => {
+        var reportsList = [];
 
-  onSubmit = authUser => event => {
+        snapshot.forEach(doc => reportsList.push({
+          uid: doc.id,
+          month: doc.data().month,
+          year: doc.data().year,
+          waterUsage: doc.data().waterUsage,
+          energyUsage: doc.data().energyUsage,
+          co2Emission: doc.data().co2Emission,
+        }));
+
+        this.setState({
+          reports: reportsList,
+          loading: false,
+        });
+      });
+  }
+
+  onSubmit = event => {
     const {
       month,
       year,
       waterUsage,
       energyUsage,
       co2Emission,
+      role,
     } = this.state;
 
-    console.log('role', authUser.role);
-
     this.props.firebase
-      .report(authUser.uid)
-      .set({
+      .reports()
+      .add({
+        uid: this.props.authUser.uid,
         month,
         year,
         waterUsage,
@@ -46,14 +69,14 @@ class HomePage extends Component {
         co2Emission,
       })
       .then(() => {
-        this.setState({ ...INITIAL_STATE });
+        this.setState({ ...INITIAL_STATE, role });
       })
       .catch(error => {
         this.setState({ error });
       });
 
     event.preventDefault();
-  }
+  };
 
   onChange = event => {
     this.setState({ [event.target.name]: event.target.value });
@@ -66,6 +89,8 @@ class HomePage extends Component {
       waterUsage,
       energyUsage,
       co2Emission,
+      role,
+      loading,
       error,
     } = this.state;
 
@@ -76,8 +101,8 @@ class HomePage extends Component {
       energyUsage === '' ||
       co2Emission === '';
 
-    const farmerView = (authUser) => (
-      <form onSubmit={this.onSubmit(authUser)}>
+    const farmerView = () => (
+      <form onSubmit={this.onSubmit}>
         <h1>Monthly Emission Report</h1>
         <input
           name="month"
@@ -116,22 +141,48 @@ class HomePage extends Component {
         />
         <button disabled={isInvalid} type="submit">
           Submit
-            </button>
+        </button>
 
         {error && <p>{error.message}</p>}
       </form>
     );
 
-    const engineerView = (authUser) => (
-      <h1>Engineer view</h1>
+    const engineerView = () => (
+      <div>
+        <h1>Engineer View</h1>
+        <ul>
+          {this.state.reports.map(report => (
+            <li key={report.uid}>
+              <ul>
+                <strong>ID: </strong> {report.uid}
+              </ul>
+              <ul>
+                <strong>Month: </strong> {report.month}
+              </ul>
+              <ul>
+                <strong>Year: </strong> {report.year}
+              </ul>
+              <ul>
+                <strong>Water Usage: </strong> {report.waterUsage}
+              </ul>
+              <ul>
+                <strong>Energy Usage: </strong> {report.energyUsage}
+              </ul>
+              <ul>
+                <strong>CO2 Emission: </strong> {report.co2Emission}
+              </ul>
+            </li>
+          ))}
+        </ul>
+      </div>
     );
 
     return (
-      <AuthUserContext.Consumer>
-        {authUser => (
-          farmerView(authUser)
-        )}
-      </AuthUserContext.Consumer>
+      <div>
+        {loading && <h1>Loading...</h1>}
+        {role === 'farmer' && farmerView()}
+        {role === 'engineer' && engineerView()}
+      </div>
     );
   }
 }

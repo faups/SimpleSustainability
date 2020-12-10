@@ -1,5 +1,4 @@
 import React from 'react';
-import leaf from '../../assets/leaf.jpg';
  
 const Landing = () => (
   <div>
