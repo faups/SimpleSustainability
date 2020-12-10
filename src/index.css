@@ -1,6 +1,6 @@
 body {
   margin: 0;
-  background: #f2f2f2;
+  background: #ffffff;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
@@ -27,7 +27,7 @@ h1 {
 }
 
 .form {
-  background: #f2f2f2;
+  background: #ffffff;
   max-width: 400px;
   margin: 0 auto;
 }
