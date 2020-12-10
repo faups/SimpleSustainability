@@ -4,6 +4,8 @@ import { withAuthorization } from '../Session';
 import { withFirebase } from '../Firebase';
 
 const INITIAL_STATE = {
+  username: '',
+  email: '',
   month: '',
   year: '',
   waterUsage: '',
@@ -21,11 +23,15 @@ class HomePage extends Component {
   }
 
   componentDidMount() {
-    this.setState({ loading: true })
+    this.setState({ loading: true });
     this.props.firebase
       .user(this.props.authUser.uid)
       .get()
-      .then(doc => this.setState({ role: doc.data().role }));
+      .then(doc => this.setState({
+        username: doc.data().username,
+        email: doc.data().email,
+        role: doc.data().role,
+      }));
     this.props.firebase
       .reports()
       .get()
@@ -34,6 +40,8 @@ class HomePage extends Component {
 
         snapshot.forEach(doc => reportsList.push({
           uid: doc.id,
+          username: doc.data().username,
+          email: doc.data().email,
           month: doc.data().month,
           year: doc.data().year,
           waterUsage: doc.data().waterUsage,
@@ -50,6 +58,8 @@ class HomePage extends Component {
 
   onSubmit = event => {
     const {
+      username,
+      email,
       month,
       year,
       waterUsage,
@@ -62,6 +72,8 @@ class HomePage extends Component {
       .reports()
       .add({
         uid: this.props.authUser.uid,
+        username,
+        email,
         month,
         year,
         waterUsage,
@@ -149,12 +161,15 @@ class HomePage extends Component {
 
     const engineerView = () => (
       <div>
-        <h1>Engineer View</h1>
+        <h1>Reports</h1>
         <ul>
           {this.state.reports.map(report => (
             <li key={report.uid}>
               <ul>
-                <strong>ID: </strong> {report.uid}
+                <strong>Name: </strong> {report.username}
+              </ul>
+              <ul>
+                <strong>Email: </strong> {report.email}
               </ul>
               <ul>
                 <strong>Month: </strong> {report.month}
@@ -163,13 +178,13 @@ class HomePage extends Component {
                 <strong>Year: </strong> {report.year}
               </ul>
               <ul>
-                <strong>Water Usage: </strong> {report.waterUsage}
+                <strong>Water Usage: </strong> {report.waterUsage} gal
               </ul>
               <ul>
-                <strong>Energy Usage: </strong> {report.energyUsage}
+                <strong>Energy Usage: </strong> {report.energyUsage} kWh
               </ul>
               <ul>
-                <strong>CO2 Emission: </strong> {report.co2Emission}
+                <strong>CO2 Emission: </strong> {report.co2Emission} g
               </ul>
             </li>
           ))}
