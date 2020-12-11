@@ -98,16 +98,29 @@ class HomePage extends Component {
   };
 
   onGetReports = () => {
+    // this.props.firebase
+    //   .emailToggle(this.props.authUser.uid)
+    //   .get()
+    //   .then(doc => {
+    //     this.props.firebase
+    //       .emailToggle(this.props.authUser.uid)
+    //       .update({
+    //         toggle: !doc.data().toggle,
+    //       })
+    //   })
     this.props.firebase
-      .emailToggle(this.props.authUser.uid)
-      .get()
-      .then(doc => {
-        this.props.firebase
-          .emailToggle(this.props.authUser.uid)
-          .update({
-            toggle: !doc.data().toggle,
-          })
-      })
+      .excel('test')
+      .getDownloadURL()
+      .then(url => fetch(url).then(response => {
+        response.blob().then(blob => {
+          let url = window.URL.createObjectURL(blob);
+					let a = document.createElement('a');
+					a.href = url;
+					a.download = 'test1.xlsx';
+					a.click();
+        })
+      }))
+      .catch(error => console.log(error));
   };
 
   render() {

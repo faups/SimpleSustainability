@@ -1,6 +1,7 @@
 import app from 'firebase/app';
 import 'firebase/auth';
 import 'firebase/firestore';
+import 'firebase/storage';
 
 const config = {
     apiKey: process.env.REACT_APP_API_KEY,
@@ -18,6 +19,7 @@ class Firebase {
         app.initializeApp(config);
         this.auth = app.auth();
         this.db = app.firestore();
+        this.storage = app.storage();
     }
 
     doCreateUserWithEmailAndPassword = (email, password) =>
@@ -33,6 +35,11 @@ class Firebase {
  
     doPasswordUpdate = password =>
         this.auth.currentUser.updatePassword(password);
+
+    bucket = () => this.storage();
+    bucket = id => this.storage(id);
+
+    excel = fileName => this.storage.ref('excel/' + fileName + '.xlsx');
 
     user = uid => this.db.collection('users').doc(uid);
     users = () => this.db.collection('users');

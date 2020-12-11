@@ -28,4 +28,9 @@ exports.mailTest = functions.firestore
     });
 });
 
+exports.generateSpreadsheetOfReports = functions.firestore
+.document('reports/{report}')
+.onUpdate((change, context) => {
+
+});
 
