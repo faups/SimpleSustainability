@@ -35,12 +35,12 @@ class Firebase {
         this.auth.currentUser.updatePassword(password);
 
     user = uid => this.db.collection('users').doc(uid);
-    
     users = () => this.db.collection('users');
 
     report = id => this.db.collection('reports').doc(id);
-    
     reports = () => this.db.collection('reports');
+
+    emailToggle = id => this.db.collection('emailToggles').doc(id);
 }
 
 export default Firebase;

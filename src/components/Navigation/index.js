@@ -19,17 +19,6 @@ const Navigation = () => (
 );
 
 const NavigationAuth = () => (
-  // <div>
-  //   <Link to={ROUTES.LANDING}>Landing</Link>
-  //   <code> </code>
-  //   <Link to={ROUTES.HOME}>Home</Link>
-  //   <code> </code>
-  //   <Link to={ROUTES.ACCOUNT}>Account</Link>
-  //   <code> </code>
-  //   <Link to={ROUTES.ADMIN}>Admin</Link>
-  //   <code> </code>
-  //   <SignOutButton />
-  // </div>
   <header>
     <img src={tsclogo} alt="tsclogo" />
     <nav>

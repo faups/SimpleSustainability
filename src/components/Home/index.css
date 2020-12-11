@@ -6,3 +6,11 @@ input {
     margin-inline: 78px;
     margin-top: 20px;
 }
+
+#monthYearSelect {
+    margin-inline: 78px;
+}
+
+select {
+    margin-right: 10px;
+}

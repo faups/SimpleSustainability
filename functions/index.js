@@ -14,7 +14,7 @@ exports.mailTest = functions.firestore
 
     var mailOptions = {
         from: 'sustainabilitysimplified@gmail.com',
-        to: 'lukefaupel@gmail.com',
+        to: change.after.data().email,
         subject: 'test message',
         text: 'this is a test message',
     };

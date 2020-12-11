@@ -97,6 +97,19 @@ class HomePage extends Component {
     this.setState({ [event.target.name]: event.target.value });
   };
 
+  onGetReports = () => {
+    this.props.firebase
+      .emailToggle(this.props.authUser.uid)
+      .get()
+      .then(doc => {
+        this.props.firebase
+          .emailToggle(this.props.authUser.uid)
+          .update({
+            toggle: !doc.data().toggle,
+          })
+      })
+  };
+
   render() {
     const {
       month,
@@ -175,27 +188,32 @@ class HomePage extends Component {
     const engineerView = () => (
       <div>
         <h1>Reports</h1>
-        <select name="month" value={month} onChange={this.onChange}>
-          <option value="">Month</option>
-          <option value="jan">January</option>
-          <option value="feb">February</option>
-          <option value="mar">March</option>
-          <option value="apr">April</option>
-          <option value="may">May</option>
-          <option value="june">June</option>
-          <option value="july">July</option>
-          <option value="aug">August</option>
-          <option value="sep">September</option>
-          <option value="oct">October</option>
-          <option value="nov">November</option>
-          <option value="dec">December</option>
-        </select>
-        <select name="year" value={year} onChange={this.onChange}>
-          <option value="">Year</option>
-          <option value="2021">2021</option>
-          <option value="2020">2020</option>
-          <option value="2019">2019</option>
-        </select>
+        <div id="monthYearSelect">
+          <select name="month" value={month} onChange={this.onChange}>
+            <option value="">Month</option>
+            <option value="jan">January</option>
+            <option value="feb">February</option>
+            <option value="mar">March</option>
+            <option value="apr">April</option>
+            <option value="may">May</option>
+            <option value="june">June</option>
+            <option value="july">July</option>
+            <option value="aug">August</option>
+            <option value="sep">September</option>
+            <option value="oct">October</option>
+            <option value="nov">November</option>
+            <option value="dec">December</option>
+          </select>
+          <select name="year" value={year} onChange={this.onChange}>
+            <option value="">Year</option>
+            <option value="2021">2021</option>
+            <option value="2020">2020</option>
+            <option value="2019">2019</option>
+          </select>
+          <button type="button" onClick={this.onGetReports}>
+            Get Reports
+          </button>
+        </div>
         <input
           name="search"
           value={search}
