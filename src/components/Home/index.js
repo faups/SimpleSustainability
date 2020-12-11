@@ -13,6 +13,7 @@ const INITIAL_STATE = {
   co2Emission: '',
   role: '',
   reports: [],
+  search: '',
   loading: false,
 };
 
@@ -69,8 +70,8 @@ class HomePage extends Component {
     } = this.state;
 
     this.props.firebase
-      .report(year + '-' + month + '-' + this.props.authUser.uid)
-      .set({
+      .reports()
+      .add({
         uid: this.props.authUser.uid,
         username,
         email,
@@ -102,6 +103,7 @@ class HomePage extends Component {
       energyUsage,
       co2Emission,
       role,
+      search,
       loading,
       error,
     } = this.state;
@@ -190,9 +192,17 @@ class HomePage extends Component {
           <option value="2020">2020</option>
           <option value="2019">2019</option>
         </select>
+        <input
+          name="search"
+          value={search}
+          onChange={this.onChange}
+          type="text"
+          placeholder="Search"
+        />
         <ul>
           {this.state.reports.map(report =>
-            report.month.includes(month) && report.year.includes(year) ? (
+            report.month.includes(month) && report.year.includes(year) &&
+            (report.username.includes(search) || report.email.includes(search)) ? (
               <li key={report.uid}>
                 <ul>
                   <strong>Name: </strong> {report.username}
@@ -216,7 +226,7 @@ class HomePage extends Component {
                   <strong>CO2 Emission: </strong> {report.co2Emission} g
               </ul>
               </li>
-            ) : <div key={report.uid}></div>)}
+            ) : (<div key={report.uid} />))}
         </ul>
       </div>
     );
