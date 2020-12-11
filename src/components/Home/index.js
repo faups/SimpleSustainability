@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 
+import './index.css'
+
 import { withAuthorization } from '../Session';
 import { withFirebase } from '../Firebase';
 
@@ -118,27 +120,29 @@ class HomePage extends Component {
     const farmerView = () => (
       <form onSubmit={this.onSubmit}>
         <h1>Monthly Emission Report</h1>
-        <select name="month" value={month} onChange={this.onChange}>
-          <option value="">Month</option>
-          <option value="jan">January</option>
-          <option value="feb">February</option>
-          <option value="mar">March</option>
-          <option value="apr">April</option>
-          <option value="may">May</option>
-          <option value="june">June</option>
-          <option value="july">July</option>
-          <option value="aug">August</option>
-          <option value="sep">September</option>
-          <option value="oct">October</option>
-          <option value="nov">November</option>
-          <option value="dec">December</option>
-        </select>
-        <select name="year" value={year} onChange={this.onChange}>
-          <option value="">Year</option>
-          <option value="2021">2021</option>
-          <option value="2020">2020</option>
-          <option value="2019">2019</option>
-        </select>
+        <div id="monthYearSelect">
+          <select name="month" value={month} onChange={this.onChange}>
+            <option value="">Month</option>
+            <option value="jan">January</option>
+            <option value="feb">February</option>
+            <option value="mar">March</option>
+            <option value="apr">April</option>
+            <option value="may">May</option>
+            <option value="june">June</option>
+            <option value="july">July</option>
+            <option value="aug">August</option>
+            <option value="sep">September</option>
+            <option value="oct">October</option>
+            <option value="nov">November</option>
+            <option value="dec">December</option>
+          </select>
+          <select name="year" value={year} onChange={this.onChange}>
+            <option value="">Year</option>
+            <option value="2021">2021</option>
+            <option value="2020">2020</option>
+            <option value="2019">2019</option>
+          </select>
+        </div>
         <input
           name="waterUsage"
           value={waterUsage}
@@ -202,31 +206,31 @@ class HomePage extends Component {
         <ul>
           {this.state.reports.map(report =>
             report.month.includes(month) && report.year.includes(year) &&
-            (report.username.includes(search) || report.email.includes(search)) ? (
-              <li key={report.uid}>
-                <ul>
-                  <strong>Name: </strong> {report.username}
-                </ul>
-                <ul>
-                  <strong>Email: </strong> {report.email}
-                </ul>
-                <ul>
-                  <strong>Month: </strong> {report.month}
-                </ul>
-                <ul>
-                  <strong>Year: </strong> {report.year}
-                </ul>
-                <ul>
-                  <strong>Water Usage: </strong> {report.waterUsage} gal
-              </ul>
-                <ul>
-                  <strong>Energy Usage: </strong> {report.energyUsage} kWh
-              </ul>
-                <ul>
-                  <strong>CO2 Emission: </strong> {report.co2Emission} g
-              </ul>
-              </li>
-            ) : (<div key={report.uid} />))}
+              (report.username.includes(search) || report.email.includes(search)) ? (
+                <li key={report.uid}>
+                  <ul>
+                    <strong>Name: </strong> {report.username}
+                  </ul>
+                  <ul>
+                    <strong>Email: </strong> {report.email}
+                  </ul>
+                  <ul>
+                    <strong>Month: </strong> {report.month}
+                  </ul>
+                  <ul>
+                    <strong>Year: </strong> {report.year}
+                  </ul>
+                  <ul>
+                    <strong>Water Usage: </strong> {report.waterUsage} gal
+                  </ul>
+                  <ul>
+                    <strong>Energy Usage: </strong> {report.energyUsage} kWh
+                  </ul>
+                  <ul>
+                    <strong>CO2 Emission: </strong> {report.co2Emission} g
+                  </ul>
+                </li>
+              ) : (<div key={report.uid} />))}
         </ul>
       </div>
     );
