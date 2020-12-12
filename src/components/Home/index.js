@@ -128,9 +128,9 @@ class HomePage extends Component {
 
     var wb = xlsx.utils.book_new();
     var ws = xlsx.utils.json_to_sheet(this.state.reports);
-    xlsx.utils.book_append_sheet(wb, ws, 'New Data');
+    xlsx.utils.book_append_sheet(wb, ws, 'Reports');
 
-    var fileName = "New Data File.xlsx";
+    var fileName = 'Reports.xlsx';
     xlsx.writeFile(wb, fileName);
   };
 
