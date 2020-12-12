@@ -98,6 +98,19 @@ class HomePage extends Component {
     this.setState({ [event.target.name]: event.target.value });
   };
 
+  onEmailMe = () => {
+    this.props.firebase
+      .emailToggle(this.props.authUser.uid)
+      .get()
+      .then(doc => {
+        this.props.firebase
+        .emailToggle(this.props.authUser.uid)
+        .update({
+          toggle: !doc.data().toggle,
+        })
+      });
+  }
+
   onGetReports = () => {
     // this.props.firebase
     //   .excel('test')
@@ -112,7 +125,7 @@ class HomePage extends Component {
     //     })
     //   }))
     //   .catch(error => console.log(error));
-    
+
     var wb = xlsx.utils.book_new();
     var ws = xlsx.utils.json_to_sheet(this.state.reports);
     xlsx.utils.book_append_sheet(wb, ws, 'New Data');
@@ -223,6 +236,9 @@ class HomePage extends Component {
           </select>
           <button type="button" onClick={this.onGetReports}>
             Get Reports
+          </button>
+          <button type="button" onClick={this.onEmailMe}>
+            Email Me
           </button>
         </div>
         <input
