@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import xlsx from 'xlsx';
 
 import './index.css'
 
@@ -99,28 +100,25 @@ class HomePage extends Component {
 
   onGetReports = () => {
     // this.props.firebase
-    //   .emailToggle(this.props.authUser.uid)
-    //   .get()
-    //   .then(doc => {
-    //     this.props.firebase
-    //       .emailToggle(this.props.authUser.uid)
-    //       .update({
-    //         toggle: !doc.data().toggle,
-    //       })
-    //   })
-    this.props.firebase
-      .excel('test')
-      .getDownloadURL()
-      .then(url => fetch(url).then(response => {
-        response.blob().then(blob => {
-          let url = window.URL.createObjectURL(blob);
-					let a = document.createElement('a');
-					a.href = url;
-					a.download = 'test1.xlsx';
-					a.click();
-        })
-      }))
-      .catch(error => console.log(error));
+    //   .excel('test')
+    //   .getDownloadURL()
+    //   .then(url => fetch(url).then(response => {
+    //     response.blob().then(blob => {
+    //       let url = window.URL.createObjectURL(blob);
+    // 			let a = document.createElement('a');
+    // 			a.href = url;
+    // 			a.download = 'Report.xlsx';
+    // 			a.click();
+    //     })
+    //   }))
+    //   .catch(error => console.log(error));
+    
+    var wb = xlsx.utils.book_new();
+    var ws = xlsx.utils.json_to_sheet(this.state.reports);
+    xlsx.utils.book_append_sheet(wb, ws, 'New Data');
+
+    var fileName = "New Data File.xlsx";
+    xlsx.writeFile(wb, fileName);
   };
 
   render() {
